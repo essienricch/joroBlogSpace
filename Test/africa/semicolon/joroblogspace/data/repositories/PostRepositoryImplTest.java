@@ -11,10 +11,6 @@ public class PostRepositoryImplTest {
 
    private PostRepository postRepository;
 
-    @BeforeEach
-    void setUp(){
-        postRepository = new PostRepositoryImpl();
-    }
 
     @Test
     void saveNewPost_countShouldBeOne_Test(){
@@ -35,12 +31,12 @@ public class PostRepositoryImplTest {
 
         assertEquals(1L, postRepository.count());
 
-        Post savedPost = postRepository.findById(1);
+        Post savedPost = postRepository.findPostById("1");
         assertEquals(post,savedPost);
 
         Post post1 = new Post();
         postRepository.save(post1);
-        assertEquals(post1,postRepository.findById(2));
+        assertEquals(post1,postRepository.findPostById("2"));
     }
 
     @Test
@@ -51,13 +47,13 @@ public class PostRepositoryImplTest {
         postRepository.save(post);
 
         Post updatedPost = new Post();
-        updatedPost.setId(1);
+        updatedPost.setId("1");
         updatedPost.setBody("Updated body");
         updatedPost.setTitle("updated title");
         postRepository.save(updatedPost);
 
         assertEquals(1L, postRepository.count());
-        assertEquals(post, postRepository.findById(1));
+        assertEquals(post, postRepository.findPostById("1"));
         assertEquals("Updated body", post.getBody());
         assertEquals("updated title", post.getTitle());
     }
@@ -69,7 +65,7 @@ public class PostRepositoryImplTest {
         post.setTitle("Our Post Title");
         postRepository.save(post);
         assertEquals(1L, postRepository.count());
-        postRepository.delete(1);
+        postRepository.delete(post);
         assertEquals(0L, postRepository.count());
 
 

@@ -1,24 +1,26 @@
 package africa.semicolon.joroblogspace.controllers;
 
 import africa.semicolon.joroblogspace.data.models.Post;
-import africa.semicolon.joroblogspace.dtos.requests.CreatePostRequest;
+import africa.semicolon.joroblogspace.dtos.post.requests.CreatePostRequest;
 import africa.semicolon.joroblogspace.services.PostService;
-import africa.semicolon.joroblogspace.services.PostServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PostController {
 
-    private PostService postService = new PostServiceImpl();
+    @Autowired
+    private PostService postService;
 
     @PostMapping("/post")
     public String createPost(@RequestBody CreatePostRequest createPostRequest){
         postService.createPost(createPostRequest);
-        return "Successful";
+        return "Post Created Successfully";
     }
 
     @GetMapping("/post/{postId}")
-    public Post viewPost(@PathVariable int postId){
+    public Post viewPost(@PathVariable String postId){
+
         return postService.viewPost(postId);
     }
 }
